@@ -73,7 +73,7 @@ void* map_file(const char* filename, map_handle_t** handle) {
     return NULL;
   }
 
-  *handle = calloc(1, sizeof(map_handle_t));
+  *handle = (map_handle_t*) calloc(1, sizeof(map_handle_t));
   if (*handle == NULL) {
     return NULL;
   }
