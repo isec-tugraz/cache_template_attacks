@@ -69,9 +69,13 @@ int main(int argc, char** argv)
   int fd = open(filename,O_RDONLY);
   if (fd < 3)
     exit(!printf("error: failed to open file\n"));
-  unsigned char* addr = (unsigned char*)mmap(0, 64*1024*1024, PROT_READ, MAP_SHARED, fd, 0);
+  size_t map_size = 64*1024*1024;
+  unsigned char* addr = (unsigned char*)mmap(0, map_size, PROT_READ, MAP_SHARED, fd, 0);
 #endif
   start = addr + offset;
+  if (offset + range > map_size) {
+    exit(!printf("error: mapping size too small\n"));
+  }
   fprintf(stderr,"sleep 2 seconds\n");
   sleep(2);
   char j = 0;
